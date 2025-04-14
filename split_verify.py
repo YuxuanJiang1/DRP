@@ -5,7 +5,7 @@ from tqdm import tqdm
 import tiktoken
 
 # 设置 OpenAI API Key
-openai.api_key = ('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')
+openai.api_key = ('')
 
 # 读取原始 GPT-4o 输出数据
 df = pd.read_csv("R1-Qwen-7B/7B_output_on_train.csv").head(100)
