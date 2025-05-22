@@ -50,7 +50,7 @@ vllm=0.6.1.post1+cu118
   
 ### 💻 Models
 
-We use [R1-Distill-Qwen-7B]([https://huggingface.co/mistralai/Mistral-7B-v0.1](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B)) for our main experiment. Please first get the access of that model.
+We use [R1-Distill-Qwen-7B]((https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B)) for our main experiment. Please first get the access of that model.
 
 ### 📥 Data
 
