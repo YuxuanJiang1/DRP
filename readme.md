@@ -75,7 +75,7 @@ To make the analysis convinient, we released all the judgment results in `analys
 
 
 <div style="text-align: center;">
-  <img src="./resources/token shift.png" width="1000">
+  <img src="./resources/token shift.png" width="500">
 </div>
 
 ## Acknowledge
