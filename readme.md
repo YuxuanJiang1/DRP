@@ -21,7 +21,11 @@ This is the official repository of the paper [DRP: Distilled Reasoning Pruning w
 While Large Reasoning Models (LRMs) have demonstrated remarkable success in complex reasoning tasks through Long Chain-of-Thought (CoT) reasoning, their inference often involves excessively verbose reasoning traces, resulting in substantial inefficiency. To address this issue, we propose \textbf{Distilled Reasoning Pruning (DRP)}, a hybrid framework that combines inference-time pruning with tuning-based distillation---two widely used strategies for efficient reasoning. DRP employs a teacher model to perform skill-aware step decomposition and content pruning, and then distills the pruned reasoning paths into a student model, enabling it to reason both efficiently and accurately. Across a series of challenging mathematical reasoning datasets, we find models trained with DRP achieve substantial improvements in token efficiency without sacrificing accuracy. Specifically, DRP reduces the average token usage on GSM8K from 917 to 328 while improving accuracy from 91.7% to 94.1%, and achieves a 43% token reduction on AIME with no performance drop. Further analysis reveals that aligning the reasoning structure of training CoTs with the student’s reasoning capacity is critical for effective knowledge transfer and performance gains.
 
 <div style="text-align: center;">
-  <img src="./resources/pruning_distillation_intro.pdf" width="1000" >
+  <img src="./resources/overview.png" width="1000" >
+</div>
+
+<div style="text-align: center;">
+  <img src="./resources/method.png" width="1000" >
 </div>
 
 ## 📄 Get Started
