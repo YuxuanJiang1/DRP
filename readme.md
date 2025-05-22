@@ -46,19 +46,16 @@ llamafactory=0.9.2.dev0
 transformers=4.48.1
 vllm=0.6.1.post1+cu118
 ```
-- Next, get and fill all the required API. In this work, we use [GPT-4o](https://openai.com/index/gpt-4/), [Gemini-1.5-flash](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash) and [LLaMA-3.3-70B](https://www.together.ai/).
+- Next, get and fill all the required API. In this work, we use [GPT-4o](https://openai.com/index/gpt-4/), [Gemini-2.0-flash](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-2.0-flash) and [Chatgpt](https://openai.com/index/chatgpt/).
   
 ### 💻 Models
 
-We use [Mistral-7B-v0.1](https://huggingface.co/mistralai/Mistral-7B-v0.1) for our main experiment. Please first get the access of that model.
+We use [R1-Distill-Qwen-7B]([https://huggingface.co/mistralai/Mistral-7B-v0.1](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B)) for our main experiment. Please first get the access of that model.
 
 ### 📥 Data
 
-We put all the dataset used in our experiment [here](https://drive.google.com/drive/folders/1fVQzz0gcRhL6OKc_O4AGHnIq-yd-eckX?usp=sharing), You can directly download it and put `data/` under the current folder, including:
-- Instruction seed sampled from [UltraFeedback](https://huggingface.co/datasets/openbmb/UltraFeedback) in `data/UltraFeedback_sampled_30000.json` and `data/UltraFeedback_sampled_30000_new.json`
-- Synthetic dataset for each experiment, in `data/sft_data`, `data/pairwise_synthesis`, `data/mixed_data`, `data/inherit_data`, `data_human_written`
-- MTBench dataset used to analyze the preference of GPT-4 to LLaMA family in `data/mtbench_extracted.json`
-- Model output and judgment results. You can directly download it and put `alpacaEval/`, `alpacaEval_result/` and `arenaHard_result/` under `analysis/` and put `model_answer` under `evaluation/Arena_Hard/data/arena-hard-v0.1/`
+Coming soon.
+
 
 ## ⛳️ Run
 
@@ -70,47 +67,17 @@ To make the analysis convinient, we released all the judgment results in `analys
 ```
   bash training/train_sft.sh
 ```
-- Then, judging student models in the two benchmark:
-```
-  # For Arena-Hard
-  cd evaluation/Arena_Hard
-  bash inference.sh --sft
-  bash judge.sh --sft
-  # Then move the judgment result to analysis/Arenahard_result/
-  python analysis/parse_arenahard.py --sft
 
-  # For AlpacaEval 2.0
-  bash analysis/run_alpacaEval.sh --sft
-  # Then copy the output generation to evaluation/Alpaca_Eval2/example/
-  cd evaluation/Alpaca_Eval2
-  bash judge.sh --sft
-  # Then check the output leaderboard.csv for the length-controlled win-rate
-```
 
 <div style="text-align: center;">
-  <img src="./resource/exp/raw_result.png" width="1000">
-</div>
-
-- To get the preference leakage score, you could follow the equation in our paper to calculate
-
-<div style="text-align: center;">
-  <img src="./resource/exp/main_experiment.png" width="500">
-</div>
-
-- To analyze GPT-4's bias to LLaMA family, run:
-```
-  python llama_analysis.py
-```
-
-<div style="text-align: center;">
-  <img src="./resource/exp/llama.png" width="500">
+  <img src="./resource/token capture.png" width="500">
 </div>
 
 
 <div style="text-align: center;">
-  <img src="./resource/exp/category_analysis.png" width="1000">
+  <img src="./resource/token shift.png" width="1000">
 </div>
 
 ## Acknowledge
 
-- This work borrows and forks the following repositories for training and evaluation: [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory/tree/main), [AlpacaEval](https://github.com/tatsu-lab/alpaca_eval), [Arena-Hard](https://github.com/lmarena/arena-hard-auto).
+- This work borrows and forks the following repositories for training and evaluation: [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory/tree/main), and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness).
