@@ -5,14 +5,11 @@ This is the official repository of the paper [DRP: Distilled Reasoning Pruning w
 - If you find our work helpful and it has been of any assistance to you, we would greatly appreciate it if you could kindly cite it:
   
 ```
-@misc{jiang2025drpdistilledreasoningpruning,
-      title={DRP: Distilled Reasoning Pruning with Skill-aware Step Decomposition for Efficient Large Reasoning Models}, 
-      author={Yuxuan Jiang and Dawei Li and Frank Ferraro},
-      year={2025},
-      eprint={2505.13975},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2505.13975}, 
+@article{jiang2025drp,
+  title={DRP: Distilled Reasoning Pruning with Skill-aware Step Decomposition for Efficient Large Reasoning Models},
+  author={Jiang, Yuxuan and Li, Dawei and Ferraro, Frank},
+  journal={arXiv preprint arXiv:2505.13975},
+  year={2025}
 }
 ```
 
