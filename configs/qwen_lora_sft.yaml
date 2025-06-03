@@ -1,0 +1,35 @@
+model_name_or_path: /p/work2/yuxuanj1/hf_models/DeepSeek-R1-Distill-Qwen-7B
+
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all  
+
+
+dataset_dir: /p/work2/yuxuanj1/reasoning/split_verify_gemini_limo/gemini_sft_ready
+dataset: gemini2_instruction_data  
+
+template: qwen
+cutoff_len: 4096
+max_samples: 8000
+overwrite_cache: true
+preprocessing_num_workers: 8
+
+output_dir: /p/work2/yuxuanj1/ftmodels/qwen-7b-limo-3ep/lora-sft
+logging_steps: 10
+save_steps: 600
+plot_loss: true
+overwrite_output_dir: true
+
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 4
+learning_rate: 3.0e-5
+num_train_epochs: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+
+val_size: 0.05
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 300
