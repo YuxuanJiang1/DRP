@@ -56,10 +56,16 @@ Coming soon.
 
 ## ⛳️ Run
 
-To make the analysis convinient, we released all the judgment results in `analysis/alpacaEval_result/` and `analysis/arenaHard_result/`
+### Reasoning Path Decomposition and Pruning
+
+- Run the following command:
+```
+  python3 split_verify.py
+```
 
 ### Main Experiment
 
+- With the training data prepared:
 - First run the following command to train the student models:
 ```
   bash training/train_sft.sh
