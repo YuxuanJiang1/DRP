@@ -66,7 +66,7 @@ Coming soon.
 - With the training data prepared:
 - First run the following command to train the student models:
 ```
-  bash training/train_sft.sh
+  bash scripts/run_all.sh
 ```
 
 
