@@ -42,6 +42,7 @@ pip install -r requirements/eval.txt
 
 ```
 - Next, get and fill all the required API. In this work, we use [GPT-4o](https://openai.com/index/gpt-4/), [Gemini-2.0-flash](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-2.0-flash) and [Chatgpt](https://openai.com/index/chatgpt/).
+- Also, install tools for training and evaluation: [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory/tree/main), and [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness).
   
 ### 💻 Models
 
