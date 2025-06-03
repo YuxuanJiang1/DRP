@@ -1,25 +1,36 @@
 #!/bin/bash
 
-SESSION=math  # Existing tmux session name
+# ===========================
+# DRP: Efficient Reasoning Pipeline
+# Script: run_all.sh
+# Purpose: Run training + LoRA merge + evaluation automatically via tmux
+# ===========================
 
-# Step 1: Start training
-tmux send-keys -t $SESSION "conda activate qwen" C-m
-tmux send-keys -t $SESSION "echo '🚀 Step 1: Starting SFT training...'" C-m
-tmux send-keys -t $SESSION "CUDA_VISIBLE_DEVICES=0 llamafactory-cli train /p/work2/yuxuanj1/reasoning/eval/qwen_lora_sft.yaml | tee sft_train.log" C-m
+# 🟦 Customize these paths before running
+PROJECT_DIR=$(pwd)                                # Automatically points to current project root
+TRAIN_ENV_PATH="$PROJECT_DIR/../train_env/bin/activate"   # Update if you store env elsewhere
+EVAL_ENV_PATH="$PROJECT_DIR/../eval_env/bin/activate"     # Update if you store env elsewhere
+SESSION=math                                      # You may rename the tmux session if needed
 
-# Step 2 and 3: Execute after training completes
-tmux send-keys -t $SESSION '
-echo "🕒 Waiting for training to complete, then starting Step 2..." &&
-conda deactivate &&
-source activate /p/work2/yuxuanj1/conda_envs/qwen &&
-cd /p/work2/yuxuanj1/reasoning/eval &&
-echo "🔗 Step 2: Merging LoRA weights..." &&
-python3 lora_merge.py | tee lora_merge.log &&
-cd eval_sft &&
-echo "🧪 Step 3: Running evaluation script..." &&
-python3 sft_gsm8k.py | tee sft_eval.log &&
-echo "✅ All steps completed successfully!"
-' C-m
+# 🧠 Step 1: LoRA SFT training
+tmux send-keys -t $SESSION "
+source $TRAIN_ENV_PATH &&
+echo '🚀 Step 1: Starting SFT training...' &&
+CUDA_VISIBLE_DEVICES=0 llamafactory-cli train $PROJECT_DIR/configs/qwen_lora_sft.yaml | tee $PROJECT_DIR/logs/sft_train.log
+" C-m
 
-echo "🟢 All commands have been sent to tmux session [$SESSION]. You can view the process using:"
-echo "    tmux attach -t $SESSION"
+# 🔁 Step 2 & 3: Merge weights + Evaluate
+tmux send-keys -t $SESSION "
+echo '🕒 Waiting for training to complete, then starting Step 2...' &&
+source $EVAL_ENV_PATH &&
+cd $PROJECT_DIR &&
+echo '🔗 Step 2: Merging LoRA weights...' &&
+python3 scripts/lora_merge.py | tee logs/lora_merge.log &&
+echo '🧪 Step 3: Running evaluation script...' &&
+python3 scripts/sft_gsm8k.py | tee logs/sft_eval.log &&
+echo '✅ All steps completed successfully!'
+" C-m
+
+# 🖥️ Final instructions
+echo "🟢 Commands sent to tmux session [$SESSION]."
+echo "💡 To monitor progress, run: tmux attach -t $SESSION"
