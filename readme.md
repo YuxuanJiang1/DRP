@@ -30,18 +30,16 @@ While Large Reasoning Models (LRMs) have demonstrated remarkable success in comp
 ### 📝 Setup
 - Firstly, install the required environment:
 ```
-conda create -n pl python==3.10
+# Training env (for LoRA)
+python -m venv train_env
+source train_env/bin/activate
+pip install -r requirements/train.txt
 
-conda activate pl
+# Evaluation env 
+python -m venv eval_env
+source eval_env/bin/activate
+pip install -r requirements/eval.txt
 
-pip install -r requirements.txt
-
-# important package
-deepspeed=0.14.4
-flash-attn=2.3.6
-llamafactory=0.9.2.dev0
-transformers=4.48.1
-vllm=0.6.1.post1+cu118
 ```
 - Next, get and fill all the required API. In this work, we use [GPT-4o](https://openai.com/index/gpt-4/), [Gemini-2.0-flash](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-2.0-flash) and [Chatgpt](https://openai.com/index/chatgpt/).
   
