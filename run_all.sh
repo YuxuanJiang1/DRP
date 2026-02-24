@@ -5,7 +5,7 @@ SESSION=math  # Existing tmux session name
 # Step 1: Start training
 tmux send-keys -t $SESSION "conda activate qwen" C-m
 tmux send-keys -t $SESSION "echo '🚀 Step 1: Starting SFT training...'" C-m
-tmux send-keys -t $SESSION "CUDA_VISIBLE_DEVICES=0 llamafactory-cli train /p/work2/yuxuanj1/reasoning/eval/qwen_lora_sft.yaml | tee sft_train.log" C-m
+tmux send-keys -t $SESSION "CUDA_VISIBLE_DEVICES=0 llamafactory-cli train /path/eval/qwen_lora_sft.yaml | tee sft_train.log" C-m
 
 # Step 2 and 3: Execute after training completes
 tmux send-keys -t $SESSION '
