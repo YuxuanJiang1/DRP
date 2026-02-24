@@ -6,18 +6,18 @@ from tqdm import tqdm
 from transformers import AutoTokenizer
 from lm_eval.tasks import get_task_dict
 
-# ========= 配置 =========
+# ========= Configuration =========
 task_name = "gsm8k_cot_zeroshot"
-merged_model_path = "/p/work2/yuxuanj1/merged_models/qwen-7b-limo-3ep" # ✅ 使用 merge 后模型
+merged_model_path = "/p/work2/yuxuanj1/merged_models/qwen-7b-limo-3ep"  # ✅ Use merged model
 output_dir = "/p/work2/yuxuanj1/reasoning/selfrevise_limo/gsm8k_cot_eval"
 os.makedirs(output_dir, exist_ok=True)
 gpu_id = "0"
-max_gen_tokens = "40000"  # ✅ 推荐设为合理值（避免拖慢）
+max_gen_tokens = "40000"  # ✅ Recommended reasonable value (avoid slowdown)
 
-# 初始化 tokenizer
+# Initialize tokenizer
 tokenizer = AutoTokenizer.from_pretrained(merged_model_path, trust_remote_code=True)
 
-# ========= 辅助函数 =========
+# ========= Helper Functions =========
 def get_latest_sample_file(output_dir, task_name):
     pattern = os.path.join(output_dir, f"{task_name}_full.json", "**", f"samples_{task_name}_*.jsonl")
     sample_files = glob.glob(pattern, recursive=True)
@@ -68,7 +68,7 @@ def print_token_summary(task_name, output_dir):
     except Exception as e:
         print(f"⚠️ Error reading sample file: {e}")
 
-# ========= 主流程 =========
+# ========= Main Pipeline =========
 print(f"\n=== Running {task_name} with merged model and vLLM ===")
 
 if is_already_processed(task_name, output_dir):
