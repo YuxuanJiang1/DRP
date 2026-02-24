@@ -6,17 +6,17 @@ from tqdm import tqdm
 from transformers import AutoTokenizer
 from lm_eval.tasks import get_task_dict
 
-# 模型路径
+# Model path
 model_path = "/p/work2/yuxuanj1/hf_models/DeepSeek-R1-Distill-Qwen-7B"
 
-# 数据集列表
+# Dataset list
 # datasets = ["hendrycks_math_500", "AIME", "AMC"]
 datasets = ["hendrycks_math_500"]
-# 输出目录
+# Output directory
 output_dir = "/p/work2/yuxuanj1/reasoning/baselines/TALE"
 os.makedirs(output_dir, exist_ok=True)
 
-# 初始化 tokenizer
+# Initialize tokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
 
 def get_latest_sample_file(output_dir, task_name):
@@ -75,7 +75,7 @@ def print_token_summary(task_name, output_dir):
     except Exception as e:
         print(f"⚠️ Error reading sample file: {e}")
 
-# ========= 主运行逻辑 =========
+# ========= Main execution logic =========
 for task in datasets:
     print(f"\n=== Running {task} ===")
 
@@ -103,7 +103,7 @@ for task in datasets:
         "--num_fewshot", "0",
         "--output_path", output_path,
         "--batch_size", "8",
-        "--gen_kwargs", "temperature=0.0,top_p=1.0,max_gen_toks=130000"  # ✅ 删掉 max_tokens
+        "--gen_kwargs", "temperature=0.0,top_p=1.0,max_gen_toks=130000"  # ✅ Removed max_tokens
     ]
     subprocess.run(cmd, env={**os.environ, "CUDA_VISIBLE_DEVICES": "1"})
     print_token_summary(task, output_dir)
