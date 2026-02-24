@@ -4,17 +4,17 @@ from tqdm import tqdm
 import dashscope
 import tiktoken
 
-# 使用 tiktoken 模拟 GPT-4o tokenizer（估算用）
+# Use tiktoken to simulate GPT-4o tokenizer (for estimation)
 enc = tiktoken.encoding_for_model("gpt-4o")
 
 def count_tokens(text):
     return len(enc.encode(text)) if isinstance(text, str) else 0
 
-# 数据路径
+# Dataset path
 file_path = '../datasets/GSM8K/train.csv'
 df = pd.read_csv(file_path).head(10)
 
-# 答案提取
+# Answer extraction
 ANS_RE = re.compile(r"#### (\-?[0-9\.\,]+)")
 INVALID_ANS = "[invalid]"
 
@@ -42,7 +42,7 @@ prompt = (
     "Here is an example for the answer format: The answer is #### 50"
 )
 
-# QWQ-32B 推理函数，返回两个部分
+# QWQ-32B inference function, returns reasoning and final answer separately
 def query_qwq_dashscope(question):
     messages = [
         {"role": "system", "content": prompt},
@@ -66,10 +66,10 @@ def query_qwq_dashscope(question):
 
         return reasoning_content.strip(), answer_content.strip()
     except Exception as e:
-        print("❌ DashScope 调用失败:", e)
+        print("❌ DashScope call failed:", e)
         return "[error]", "[error]"
 
-# 结果统计与收集
+# Result statistics and collection
 results = []
 errors = []
 correct_count = 0
@@ -77,7 +77,7 @@ correct_count = 0
 reasoning_tokens = []
 answer_tokens = []
 
-print("🚀 开始调用 QWQ-32B 推理...")
+print("🚀 Starting QWQ-32B inference...")
 for _, row in tqdm(df.iterrows(), total=len(df)):
     question = row["question"]
     reference_answer = extract_answer_hf(row["answer"])
@@ -102,7 +102,7 @@ for _, row in tqdm(df.iterrows(), total=len(df)):
     results.append({
         "question": question,
         "reference_answer": reference_answer,
-        "qwen_answer": predicted_answer,  # 为兼容格式
+        "qwen_answer": predicted_answer,  # Kept for format compatibility
         "is_correct": is_correct,
         "reasoning_content": reasoning,
         "answer_content": answer,
@@ -110,21 +110,21 @@ for _, row in tqdm(df.iterrows(), total=len(df)):
         "answer_token_count": count_tokens(answer),
     })
 
-# 保存结果
+# Save results
 results_df = pd.DataFrame(results)
 results_df.to_csv("../baselines/qwq32B_train.csv", index=False, encoding="utf-8")
 
-# 保存错误样本
+# Save error samples
 if errors:
     with open("../baselines/qwq32B_train_error.txt", "w", encoding="utf-8") as f:
         f.writelines(errors)
 
-# 统计与报告
+# Statistics and reporting
 accuracy = correct_count / len(df) * 100
 avg_reasoning_tokens = sum(reasoning_tokens) / len(reasoning_tokens)
-avg_answer_tokens = sum(answer_tokens+reasoning_tokens) / len(answer_tokens)
+avg_answer_tokens = sum(answer_tokens + reasoning_tokens) / len(answer_tokens)
 
 print(f"✅ QWQ-32B Accuracy: {accuracy:.2f}%")
-print(f"🧮 平均 Reasoning Token 数: {avg_reasoning_tokens:.2f}")
-print(f"🧮 平均 总Answer Token 数: {avg_answer_tokens:.2f}")
-print("📁 结果已保存到 ../baselines/qwq32B_train.csv")
+print(f"🧮 Average Reasoning Token Count: {avg_reasoning_tokens:.2f}")
+print(f"🧮 Average Total Answer Token Count: {avg_answer_tokens:.2f}")
+print("📁 Results saved to ../baselines/qwq32B_train.csv")
