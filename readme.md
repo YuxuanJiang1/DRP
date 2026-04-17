@@ -2,6 +2,8 @@
 
 This is the official repository of the paper [DRP: Distilled Reasoning Pruning with Skill-aware Step Decomposition for Efficient Large Reasoning Models](https://arxiv.org/abs/2505.13975).
 
+News: Our paper has been accepted by ACL 2026 (Findings)!
+
 - If you find our work helpful and it has been of any assistance to you, we would greatly appreciate it if you could kindly cite it:
   
 ```
